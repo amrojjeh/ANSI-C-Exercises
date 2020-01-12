@@ -38,7 +38,7 @@ void escape(char s[], char t[])
 	// x is index for s, while j is index for t
 	// x will be larger or the same as j, but never less
 	int x, j;
-	for (x = j = 0; t[j] != EOF && t[j] != 0; ++j)
+	for (x = j = 0; t[j] != 0; ++j)
 	{
 		switch (t[j])
 		{
@@ -59,9 +59,41 @@ void escape(char s[], char t[])
 			break;
 		}
 	}
+	s[x] = 0;
 }
 
 void real(char s[], char t[])
 {
-	
+	int x, j;
+	for (x = j = 0; t[j] != 0; ++j)
+	{
+		switch (t[j])
+		{
+		case '\\':
+			switch (t[j + 1])
+			{
+			case 't':
+				s[x++] = '\t';
+				++j;
+				break;
+			case 'n':
+				s[x++]= '\n';
+				++j;
+				break;
+			case '\\':
+				s[x++] = '\\';
+				++j;
+				break;
+			default:
+				s[x++] = t[j];
+				break;
+			}
+			break;
+		
+		default:
+			s[x++] = t[j];
+			break;
+		}
+	}
+	s[x] = 0;
 }
