@@ -17,7 +17,7 @@ int main()
 
 void reverse(char s[], int length)
 {
-	char old[length];
+	char old[MAX_LINE];
 	for (int x = 0; x <= length; x++) // copy string
 	{
 		old[x] = s[x];
