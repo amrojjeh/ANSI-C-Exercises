@@ -8,7 +8,7 @@ void reverse(char s[]);
 int main()
 {
 	char s1[MAX_LINE];
-	int test = 0xFFF32;
+	int test = -0xFFF32;
 	itob(test, s1, 16);
 	printf("%s", s1);
 	return 0;
@@ -23,7 +23,6 @@ void itob(int n, char s[], int b)
 	do
 	{
 		int rem = (n < 0 ? -1 : 1) * (n % b);
-		printf("%x ", rem);
 		s[i++] = rem + (rem >= 10 ? -10 + 'a' : '0');
 	} while ((n /= b) != 0);
 	if (sign < 0)
