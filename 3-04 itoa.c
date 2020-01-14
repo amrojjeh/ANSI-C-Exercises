@@ -9,7 +9,7 @@ void reverse(char s[]);
 int main()
 {
 	char s1[MAX_LINE] = "This ids a test";
-	int test = -2147483648;
+	int test = -13;
 	itoa(test, s1);
 	printf("%s", s1);
 	return 0;
@@ -20,12 +20,14 @@ void itoa(int n, char s[])
 	int i, sign;
 
 	// The problem with this line is that it can't multiply -2^[wordsize] by -1, since there's no positive 2^[wordsize].
-	if ((sign = n) < 0) n = -n - (-n == n ? 1 : 0);
+	// if ((sign = n) < 0) n = -n - (-n == n ? 1 : 0);
+	sign = n;
 	i = 0;
 	do
 	{
-		s[i++] = n % 10 + '0' + (-n - 1== n + 1 ? 1 : 0); // The ternary fixes it.
-	} while ((n /= 10) > 0);
+		int rem = (n < 0 ? -1 : 0) * (n % 10);
+		s[i++] = rem + '0';
+	} while ((n /= 10) != 0); // So I changed the condition and the arithmitic
 	if (sign < 0)
 		s[i++] = '-';
 	s[i] = 0;
