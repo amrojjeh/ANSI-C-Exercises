@@ -25,7 +25,7 @@ void itoa(int n, char s[])
 	i = 0;
 	do
 	{
-		int rem = (n < 0 ? -1 : 0) * (n % 10);
+		int rem = (n < 0 ? -1 : 1) * (n % 10);
 		s[i++] = rem + '0';
 	} while ((n /= 10) != 0); // So I changed the condition and the arithmitic
 	if (sign < 0)
