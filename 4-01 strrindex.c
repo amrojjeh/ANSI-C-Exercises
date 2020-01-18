@@ -9,7 +9,7 @@ int main()
 {
 	char str[MAXLINE] = "test This is a test, yoooo!";
 	
-	printf("%d", strrindex(str, "test")); // Expected: 15
+	printf("%d\n", strrindex(str, "test")); // Expected: 15
 	return 0;
 }
 
