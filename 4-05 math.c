@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h> // for atof
 #include <ctype.h>
+#include <math.h>
 
 #define MAXOP 1000
 #define NUMBER '0'
@@ -48,11 +49,21 @@ int main()
 		case '!': // Duplicate
 			duplicate();
 			break;
-		case 's': // Swaps
+		case 'w': // Swaps
 			swap();
 			break;
 		case 'c':
 			clear();
+			break;
+		case 's': // sin
+			push(sin(pop()));
+			break;
+		case 'e': // exp
+			push(exp(pop()));
+			break;
+		case '^': // power
+			op2 = pop();
+			push(pow(pop(), op2));
 			break;
 		default:
 			printf("error: unknown command %s\n", s);
