@@ -22,6 +22,9 @@ int main()
 	double op2;
 	char s[MAXOP];
 	double vars[VARIABLES];
+
+	for (int i = 0; i < VARIABLES; ++i) vars[i] = 0;
+
 	while ((type = getop(s)) != EOF)
 		switch (type)
 		{
