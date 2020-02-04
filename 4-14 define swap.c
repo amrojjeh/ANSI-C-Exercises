@@ -1,4 +1,5 @@
 #define swap(t, x, y) {t temp = y; y = x; x = temp;}
+// A block is used to limit the lifetime of temp
 
 int main()
 {
