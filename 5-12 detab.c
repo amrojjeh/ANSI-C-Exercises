@@ -25,10 +25,10 @@ int main(int argc, char* argv[])
 			switch (argv[argc][0])
 			{
 				case '+':
-					N = atoi(argv[1] + 1);
+					N = atoi(argv[argc] + 1);
 					break;
 				case '-':
-					starting = atoi(argv[1] + 1);
+					starting = atoi(argv[argc] + 1);
 					break;
 				default:
 					printf("Usage: detab -m +n");
