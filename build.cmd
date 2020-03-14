@@ -1,0 +1,8 @@
+@ECHO off
+SETLOCAL ENABLEEXTENSIONS
+CALL vcvarsall x64
+PUSHD "%~dp1"
+CALL cl.exe %1
+ECHO "%~n1.exe"
+POPD
+ENDLOCAL
