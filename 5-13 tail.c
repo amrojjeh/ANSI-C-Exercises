@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #define MAXLINES 1000
 
@@ -16,11 +17,10 @@ static int totalCompressions = 0;
 int main(int argc, char* argv[])
 {
 	int N = 10;
-	if (argc >= 2)
+	if (argc > 1)
 	{
-		if (argv[1][0] == '-')
-			N = atoi(argv[1] + 1);
-		else
+		N = atoi(argv[1]);
+		if (N == 0)
 		{
 			printf("Usage: tail -n");
 			return -1;
