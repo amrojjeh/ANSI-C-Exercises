@@ -18,6 +18,11 @@ shift
 goto run
 :after_loop
 %PROGRAM% %RESTVAR%
+IF %errorlevel% NEQ 0 (
+	ECHO Program exited badly errorlevel=%errorlevel%
+) ELSE (
+	ECHO Program exited successfully
+)
 
 CALL clean
 POPD
