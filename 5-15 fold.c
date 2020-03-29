@@ -1,14 +1,17 @@
 #include <string.h>
 #include <stdio.h>
-#include <stdlib.h>
+
+#define EXIT_SUCCESS 0
+#define EXIT_FAILURE 1
 
 #define MAXLINES 5000
 
 int readlines(char* lineptr[], int nlines);
 void writelines(char* lineptr[], int nlines);
 
-void mqsort(char** lineptr, int left, int right, int reverse, int (*comp)(void*, void*));
+void qsort(char** lineptr, int left, int right, int reverse, int (*comp)(void*, void*));
 int numcmp(char*, char *);
+int foldcmp(char*, char*);
 
 int printHelp(char* programName, int return_code);
 
@@ -18,6 +21,7 @@ int main(int argc, char* argv[])
 	int nlines;
 	int numeric = 0;
 	int reverse = 0;
+	int fold = 0;
 
 	while (argc-- > 1)
 	{
@@ -25,14 +29,23 @@ int main(int argc, char* argv[])
 			numeric = 1;
 		else if (strcmp(argv[argc], "-r") == 0)
 			reverse = 1;
+		else if (strcmp(argv[argc], "-f") == 0)
+			fold = 1;
 		else if (strcmp(argv[argc], "-h") == 0)
-			return printHelp(argv[0], EXIT_SUCCESS);
+			return printHelp(argv[0], EXIT_SUCCESS);		
 		else return printHelp(argv[0], EXIT_FAILURE);
 	}
 
+	int (*cmp)(void*, void*) = strcmp;
+
+	if (fold)
+		cmp = foldcmp;
+	else if (numeric)
+		cmp = numcmp;
+
 	if ((nlines = readlines(lineptr, MAXLINES)) >= 0)
 	{
-		mqsort((void*) lineptr, 0, nlines - 1, reverse, (int (*)(void*,void*))(numeric ? numcmp : strcmp));
+		qsort((void*) lineptr, 0, nlines - 1, reverse, (int (*)(void*,void*))cmp);
 		writelines(lineptr, nlines);
 		return EXIT_SUCCESS;
 	}
@@ -54,7 +67,26 @@ int numcmp(char *s1, char *s2)
 		return 0;
 }
 
-void mqsort(char** v, int left, int right, int reverse, int (*comp)(void*, void*))
+int foldcmp(char *s1, char *s2)
+{
+	int tolower(char s);
+	while (*s1 != 0 && *s2 != 0 && *s1 == *s2) s1++, s2++;
+	int c1 = tolower(*s1);
+	int c2 = tolower(*s2);
+	if (c1 == c2) return 0;
+	if (c1 == 0) return -1;
+	if (c2 == 0) return 1;
+	if (c1 < c2) return -1;
+	return 1;
+}
+
+int tolower(char s)
+{
+	if (s >= 'A' && s <= 'Z') return s + 32;
+	return s;
+}
+
+void qsort(char** v, int left, int right, int reverse, int (*comp)(void*, void*))
 {
 	int i, last;
 	void swap(void *v[], int, int);
@@ -72,8 +104,8 @@ void mqsort(char** v, int left, int right, int reverse, int (*comp)(void*, void*
 			if ((*comp)(v[i], v[left]) > 0)
 				swap(v, ++last, i);
 	swap(v, left, last);
-	mqsort(v, left, last - 1, reverse, comp);
-	mqsort(v, left, last - 1, reverse, comp);
+	qsort(v, left, last - 1, reverse, comp);
+	qsort(v, last + 1, right, reverse, comp);
 }
 
 void swap(void *v[], int x, int y)
